@@ -1,3 +1,4 @@
 generate_talk
 _go_.*
 *.swp
+.DS_Store
