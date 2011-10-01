@@ -1,5 +1,5 @@
 [landslide]
-theme = {{theme}}
+theme = theme
 source = {{name}}.rst
 destination = index.html
 relative = True
