@@ -2,12 +2,32 @@ package main
 
 import (
 	"flag"
+	"io"
 	"os"
 	"path"
+	"path/filepath"
+	"strings"
 )
 
 func copyDir(dst, src string) {
-	// FIXME: need to copy from a directory to another
+	filepath.Walk(src, func (path string, info *os.FileInfo, err os.Error) (os.Error) {
+		file := strings.Replace(path, src, dst, -1)
+		if info.IsDirectory() {
+			os.MkdirAll(file, 0755)
+		} else {
+			srcFile, errSrc := os.Open(path)
+			dstFile, errDst := os.Create(file)
+
+			defer srcFile.Close()
+			defer dstFile.Close()
+
+			if errSrc != nil && errDst != nil {
+				io.Copy(dstFile, srcFile)
+			}
+		}
+
+		return nil
+	})
 }
 
 func generatePresentation(name, theme string) {
