@@ -16,14 +16,15 @@ func copyDir(dst, src string) {
 			os.MkdirAll(file, 0755)
 		} else {
 			srcFile, errSrc := os.Open(path)
-			dstFile, errDst := os.Create(file)
-
 			defer srcFile.Close()
+
+			dstFile, errDst := os.Create(file)
 			defer dstFile.Close()
 
 			if errSrc != nil && errDst != nil {
 				io.Copy(dstFile, srcFile)
 			}
+
 		}
 
 		return nil
