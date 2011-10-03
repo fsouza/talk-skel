@@ -17,14 +17,17 @@ func CopyDir(dst, src string) {
 		} else {
 			srcFile, errSrc := os.Open(path)
 			defer srcFile.Close()
+			if errSrc != nil {
+				return errSrc
+			}
 
 			dstFile, errDst := os.Create(file)
 			defer dstFile.Close()
-
-			if errSrc != nil && errDst != nil {
-				io.Copy(dstFile, srcFile)
+			if errDst != nil {
+				return errDst
 			}
 
+			io.Copy(dstFile, srcFile)
 		}
 
 		return nil
@@ -49,6 +52,6 @@ func main() {
 	if *name == "" {
 		flag.Usage()
 	} else {
-		generatePresentation(*name, *theme)
+		GeneratePresentation(*name, *theme)
 	}
 }
