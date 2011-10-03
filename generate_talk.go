@@ -12,6 +12,7 @@ import (
 func CopyDir(dst, src string) {
 	filepath.Walk(src, func (path string, info *os.FileInfo, err os.Error) (os.Error) {
 		file := strings.Replace(path, src, dst, -1)
+
 		if info.IsDirectory() {
 			os.MkdirAll(file, 0755)
 		} else {
