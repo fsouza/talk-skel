@@ -31,7 +31,7 @@ func CopyDir(dst, src string) {
 	})
 }
 
-func generatePresentation(name, theme string) {
+func GeneratePresentation(name, theme string) {
 	if dir, err := os.Getwd(); err == nil {
 		pDir := path.Join(dir, "out", name)
 		tDir := path.Join(dir, "themes", theme)
