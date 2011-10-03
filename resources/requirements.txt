@@ -1,0 +1,5 @@
+fabric
+landslide
+docutils
+pygments
+django-htmlmin
