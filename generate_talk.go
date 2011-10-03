@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func copyDir(dst, src string) {
+func CopyDir(dst, src string) {
 	filepath.Walk(src, func (path string, info *os.FileInfo, err os.Error) (os.Error) {
 		file := strings.Replace(path, src, dst, -1)
 		if info.IsDirectory() {
@@ -35,7 +35,7 @@ func generatePresentation(name, theme string) {
 	if dir, err := os.Getwd(); err == nil {
 		pDir := path.Join(dir, "out", name)
 		tDir := path.Join(dir, "themes", theme)
-		copyDir(path.Join(pDir, "theme"), tDir)
+		CopyDir(path.Join(pDir, "theme"), tDir)
 
 		os.MkdirAll(pDir, 0755)
 	}

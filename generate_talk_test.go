@@ -9,7 +9,7 @@ func TestCopyDirectoryShouldCreateTheDestinationDirectory(t *testing.T) {
 	src := "/tmp/src"
 	dst := "/tmp/dst"
 	os.MkdirAll(src, 0755)
-	copyDir(dst, src)
+	CopyDir(dst, src)
 
 	info, _ := os.Stat(dst)
 	if !info.IsDirectory() {
