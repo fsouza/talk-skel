@@ -2,10 +2,10 @@
 from fabric.api import cd, lcd, env, local, put, roles, run
 
 env.user = 'xikin'
-env.presentation_name = '{{name}}'
+env.presentation_name = '{{.Name}}'
 env.url = 'http://p.souza.cc/%(presentation_name)s' % env
 env.presentations_directory = '/home/xikin/p.souza.cc'
-env.tmp_dir = '/tmp/{{name}}'
+env.tmp_dir = '/tmp/{{.Name}}'
 env.remote_directory = '%(presentations_directory)s/%(presentation_name)s' % env
 env.roledefs = {
     'remote' : ['f.souza.cc',],
@@ -16,7 +16,7 @@ def clean():
 
 def build():
     clean()
-    local('landslide {{name}}.cfg')
+    local('landslide {{.Name}}.cfg')
 
 def open():
     local('open index.html')
@@ -39,21 +39,21 @@ def package():
     build()
     compress()
     with lcd(env.tmp_dir):
-        local('tar -czvf /tmp/{{name}}.tar.gz img index.html theme')
+        local('tar -czvf /tmp/{{.Name}}.tar.gz img index.html theme')
 
 @roles('remote')
 def deploy():
     package()
 
     run('mkdir -p %s' % env.remote_directory)
-    put('/tmp/{{name}}.tar.gz', env.remote_directory)
+    put('/tmp/{{.Name}}.tar.gz', env.remote_directory)
 
     with cd(env.remote_directory):
-        run('tar -xvzf {{name}}.tar.gz')
-        run('rm -f {{name}}.tar.gz')
+        run('tar -xvzf {{.Name}}.tar.gz')
+        run('rm -f {{.Name}}.tar.gz')
 
 
-    local('rm -rf /tmp/{{name}}*')
+    local('rm -rf /tmp/{{.Name}}*')
     print 'Deployed, check this out: %(url)s' % env
 
 @roles('remote')
