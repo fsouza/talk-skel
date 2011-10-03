@@ -1,5 +1,8 @@
 generate_talk
 _go_.*
+_gotest_.*
 *.swp
 .DS_Store
 out
+*.out
+_test*
