@@ -39,6 +39,7 @@ func GeneratePresentation(name, theme string) {
 	if dir, err := os.Getwd(); err == nil {
 		out := path.Join(dir, "out", name)
 		tDir := path.Join(dir, "themes", theme)
+		CopyDir(out, path.Join(dir, "resources"))
 		CopyDir(path.Join(out, "theme"), tDir)
 	}
 }
