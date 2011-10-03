@@ -37,11 +37,9 @@ func CopyDir(dst, src string) {
 
 func GeneratePresentation(name, theme string) {
 	if dir, err := os.Getwd(); err == nil {
-		pDir := path.Join(dir, "out", name)
+		out := path.Join(dir, "out", name)
 		tDir := path.Join(dir, "themes", theme)
-		CopyDir(path.Join(pDir, "theme"), tDir)
-
-		os.MkdirAll(pDir, 0755)
+		CopyDir(path.Join(out, "theme"), tDir)
 	}
 }
 
