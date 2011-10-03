@@ -2,12 +2,18 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"io"
 	"os"
 	"path"
 	"path/filepath"
 	"strings"
+	"template"
 )
+
+type TemplateData struct {
+	Name string
+}
 
 func CopyDir(dst, src string) {
 	filepath.Walk(src, func (path string, info *os.FileInfo, err os.Error) (os.Error) {
@@ -41,6 +47,27 @@ func GeneratePresentation(name, theme string) {
 		tDir := path.Join(dir, "themes", theme)
 		CopyDir(out, path.Join(dir, "resources"))
 		CopyDir(path.Join(out, "theme"), tDir)
+
+		templates := map[string] string{
+			"cfg.tpl": fmt.Sprintf("%s.cfg", name),
+			"fabfile.py.tpl": "fabfile.py",
+			"rst.tpl": fmt.Sprintf("%s.rst", name),
+		}
+
+		data := &TemplateData{name}
+		templatesDir := path.Join(dir, "templates")
+		for k, v := range templates {
+			t, err := template.ParseFile(path.Join(templatesDir, k))
+
+			if err != nil {
+				panic(err)
+			}
+
+			dstFile, _ := os.Create(path.Join(out, v))
+			defer dstFile.Close()
+
+			t.Execute(dstFile, data)
+		}
 	}
 }
 
